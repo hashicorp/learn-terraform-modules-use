@@ -33,6 +33,7 @@ module "ec2_instances" {
   count   = 2
 
   name = "my-ec2-cluster"
+  key_name = "ec2.test"
 
   ami                    = "ami-0c5204531f799e0c6"
   instance_type          = "t2.micro"
