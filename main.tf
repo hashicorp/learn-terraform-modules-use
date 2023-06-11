@@ -2,13 +2,29 @@
 # SPDX-License-Identifier: MPL-2.0
 
 provider "aws" {
-  region = "us-west-2"
+  region = "us-east-2"
 
   default_tags {
     tags = {
       hashicorp-learn = "module-use"
     }
   }
+}
+
+data "aws_ami" "ubuntu" {
+  most_recent = true
+
+  filter {
+    name = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
+  }
+
+  filter {
+    name = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  owners = ["099720109477"]
 }
 
 module "vpc" {
@@ -34,7 +50,7 @@ module "ec2_instances" {
 
   name = "my-ec2-cluster"
 
-  ami                    = "ami-0c5204531f799e0c6"
+  ami                    = data.aws_ami.ubuntu.id
   instance_type          = "t2.micro"
   vpc_security_group_ids = [module.vpc.default_security_group_id]
   subnet_id              = module.vpc.public_subnets[0]
