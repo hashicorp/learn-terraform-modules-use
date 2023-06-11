@@ -16,15 +16,15 @@ data "aws_ami" "ubuntu" {
 
   filter {
     name = "name"
-    values = "ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-arm64-server-*"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
   }
 
   filter {
     name = "virtualization-type"
-    values = "hvm"
+    values = ["hvm"]
   }
 
-  owners = "099720109477"
+  owners = ["099720109477"]
 }
 
 module "vpc" {
